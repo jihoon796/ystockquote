@@ -13,7 +13,7 @@
 #  Requires: Python 2.7/3.3+
 
 
-__version__ = '0.2.5dev'
+__version__ = '0.2.6dev'
 
 try:
     # py3
@@ -21,8 +21,9 @@ try:
     from urllib.parse import urlencode
 except ImportError:
     # py2
-    from urllib2 import Request, urlopen
     from urllib import urlencode
+    from urllib2 import Request, urlopen
+    import datetime
 
 
 def _request(symbol, stat):
@@ -464,11 +465,19 @@ def get_short_ratio(symbol):
 def get_historical_prices(symbol, start_date, end_date):
     """
     Get historical prices for the given ticker symbol.
-    Date format is 'YYYY-MM-DD'
+    Date format is 'YYYY-MM-DD'. Also accepts datetime
+    in addition to strings.
 
     Returns a nested dictionary (dict of dicts).
     outer dict keys are dates ('YYYY-MM-DD')
     """
+    try:
+        start_date = start_date.strftime('%Y-%m-%d')
+        end_date = end_date.strftime('%Y-%m-%d')
+    except AttributeError:
+        start_date = str(start_date)
+        end_date = str(end_date)
+
     params = urlencode({
         's': symbol,
         'a': int(start_date[5:7]) - 1,
