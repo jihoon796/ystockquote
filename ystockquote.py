@@ -21,9 +21,9 @@ try:
     from urllib.parse import urlencode
 except ImportError:
     # py2
+    import datetime
     from urllib import urlencode
     from urllib2 import Request, urlopen
-    import datetime
 
 
 def _request(symbol, stat):
