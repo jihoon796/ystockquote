@@ -17,6 +17,7 @@ __version__ = '0.2.6dev'
 
 try:
     # py3
+    import datetime
     from urllib.request import Request, urlopen
     from urllib.parse import urlencode
 except ImportError:
